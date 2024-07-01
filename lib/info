@@ -1,0 +1,2 @@
+"INCLUDE" and "SRC" are copied from acado/external_packages/qpoases
+Delete "generated" to start from clean

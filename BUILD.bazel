@@ -1,0 +1,64 @@
+cc_library(
+    name = "param",
+    hdrs = ["params.hpp"],
+)
+
+filegroup(
+    name = "lib_fg",
+    srcs = ["lib"],
+)
+
+# output of this run will write to lib/generated
+cc_binary(
+    name = "mpc_kinematic_bicycle",
+    srcs = ["mpc_kinematic_bicycle.cpp"],
+    data = [":lib_fg"],
+    deps = [
+#        ":param",
+        "@acado",
+    ],
+)
+
+filegroup(
+    name = "output_fg",
+    srcs = ["output"],
+)
+
+cc_library(
+    name = "utils",
+    srcs = ["utils.cpp"],
+    hdrs = [
+        "pose.hpp",
+        "utils.hpp",
+    ],
+    copts = ["-Wno-sign-compare"],  # @david need to be able compile without this flags
+    data = [
+        "resource/waypoints.csv",
+        ":output_fg",
+    ],
+    defines = ["_av_ros2_bazel_"],
+    deps = [
+        ":param",
+        "//navigation/mpc_steering/lib",
+    ],
+)
+
+cc_library(
+    name = "mpc_steering",
+    srcs = ["mpc_steering.cpp"],
+    hdrs = ["mpc_steering.hpp"],
+    # @david need to be able compile without these flags
+    copts = [
+        "-Wno-unused-parameter",
+        "-Wno-unused-but-set-variable",
+        "-Wno-sign-compare",
+    ],
+    data = ["resource/waypoints.csv"],
+    deps = [":utils"],
+)
+
+cc_binary(
+    name = "test",
+    srcs = ["test.cpp"],
+    deps = [":mpc_steering"],
+)

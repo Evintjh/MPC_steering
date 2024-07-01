@@ -1,0 +1,33 @@
+package(default_visibility = ["//visibility:public"])
+
+#cc_library(
+#    name = "lib",
+#    srcs = glob(
+#        [
+#            "generated/*.c*",
+#            "SRC/*.ipp",
+#            "SRC/*.cpp",
+#        ],
+#        exclude = ["generated/test.c"],
+#    ),
+#    hdrs = glob([
+#        "generated/*.h*",
+#        "INCLUDE/**/*.hpp",
+#        "INCLUDE/**/*.ipp",
+#    ]),
+#    copts = ["-Wno-unused-variable"],
+#    includes = [
+#        ".",
+#        "INCLUDE",
+#        "SRC",
+#        "generated",
+#    ],
+#)
+
+#cc_binary(
+#    name = "test",
+#    srcs = ["generated/test.c"],
+#    deps = [
+#        ":lib",
+#    ],
+#)
